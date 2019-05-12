@@ -101,12 +101,11 @@ public class NorthwindEntityProcessor implements EntityProcessor {
 
 		UriResourceEntitySet uriResourceEntitySet = (UriResourceEntitySet) uriResource;
 		EdmEntitySet startEdmEntitySet = uriResourceEntitySet.getEntitySet();
-
+		List<UriParameter> keyPredicates = uriResourceEntitySet.getKeyPredicates();
+		String id= keyPredicates.get(0).getText();
+		id=id.replaceAll("'", "");
 		if (segmentCount == 1) {
 			responseEdmEntitySet = startEdmEntitySet;
-			List<UriParameter> keyPredicates = uriResourceEntitySet.getKeyPredicates();
-			String id= keyPredicates.get(0).getText();
-			id=id.replaceAll("'", "");
 			String entityName=uriResourceEntitySet.getEntityType().getName();
 			try {
 				responseEntity = this.readHandler.readEntity(id, entityNametoClass.get(entityName));
@@ -122,8 +121,6 @@ public class NorthwindEntityProcessor implements EntityProcessor {
 			 * */
 			UriResource navSegment = resourceParts.get(1); 
 			if (navSegment instanceof UriResourceNavigation) {
-				List<UriParameter> keyPredicates = uriResourceEntitySet.getKeyPredicates();
-				String id= keyPredicates.get(0).getText();
 				String sourceEntityName = uriResourceEntitySet.getEntityType().getName();
 				UriResourceNavigation uriResourceNavigation = (UriResourceNavigation) navSegment;
 				EdmNavigationProperty edmNavigationProperty = uriResourceNavigation.getProperty();
