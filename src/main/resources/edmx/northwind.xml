@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+	<edmx:DataServices>
+		<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm"
+			Namespace="OData">
+			<EntityType Name="Product">
+				<Key>
+					<PropertyRef Name="productID" />
+				</Key>
+				<Property Name="productID" Type="Edm.String" />
+				<Property Name="productName" Type="Edm.String" />
+				<Property Name="quantityPerUnit" Type="Edm.String" />
+				<Property Name="unitPrice" Type="Edm.Double" />
+				<Property Name="category" Type="OData.Category" />
+			</EntityType>
+
+			<EntityType Name="Customer">
+				<Key>
+					<PropertyRef Name="customerID" />
+				</Key>
+				<Property Name="customerID" Type="Edm.String" />
+				<Property Name="customerName" Type="Edm.String" />
+				<Property Name="phone" Type="Edm.String" />
+				<Property Name="address" Type="OData.Address" />
+			</EntityType>
+
+			<EntityType Name="Shipper">
+				<Key>
+					<PropertyRef Name="shipperID" />
+				</Key>
+				<Property Name="shipperID" Type="Edm.String" />
+				<Property Name="companyName" Type="Edm.String" />
+				<Property Name="phone" Type="Edm.String" />
+			</EntityType>
+
+			<EntityType Name="Order">
+				<Key>
+					<PropertyRef Name="orderID" />
+				</Key>
+				<Property Name="orderID" Type="Edm.String" />
+				<Property Name="orderedDate" Type="Edm.Date" />
+				<Property Name="shippedDate" Type="Edm.Date" />
+				<Property Name="shippedAddress" Type="OData.Address" />
+				<NavigationProperty Name="shipper" Type="OData.Shipper" />
+				<NavigationProperty Name="customer" Type="OData.Customer" />
+				<Property Name="orderitems"  Type="Collection(OData.OrderDetail)" />
+			</EntityType>
+
+			<ComplexType Name="Address">
+				<Property Name="street" Type="Edm.String" />
+				<Property Name="city" Type="Edm.String" />
+				<Property Name="country" Type="Edm.String" />
+				<Property Name="ZIP" Type="Edm.Int64" />
+			</ComplexType>
+
+			<ComplexType Name="OrderDetail">
+				<Property Name="productID" Type="Edm.String" />
+				<Property Name="quantity" Type="Edm.Int32" />
+				<Property Name="discount" Type="Edm.Double" />
+				<Property Name="unitPrice" Type="Edm.Double" />
+			</ComplexType>
+
+			<ComplexType Name="Category">
+				<Property Name="categoryID" Type="Edm.String" />
+				<Property Name="categoryName" Type="Edm.String" />
+				<Property Name="description" Type="Edm.String" />
+			</ComplexType>
+
+			<EntityContainer Name="Northwind">
+				<EntitySet Name="Products" EntityType="OData.Product" />
+				<EntitySet Name="Orders" EntityType="OData.Order" >
+				 	<NavigationPropertyBinding Path="shipper" Target="Shippers" />
+				 	<NavigationPropertyBinding Path="customer" Target="Customers" />
+				</EntitySet>
+				<EntitySet Name="Shippers" EntityType="OData.Shipper" />
+				<EntitySet Name="Customers" EntityType="OData.Customer" />
+
+			</EntityContainer>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>
