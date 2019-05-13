@@ -1,5 +1,6 @@
 package northwind.config;
 
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
+@ComponentScan(basePackages = {"northwind"})
+@ServletComponentScan(basePackages= { "northwind" })
+@EnableMongoRepositories(basePackages = { "northwind" }, mongoTemplateRef = "mongo-northwind")
 @Configuration
 public class MongoConfig {
 

@@ -1,19 +1,16 @@
-package northwind.controllers;
+package northwind.runner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.context.annotation.Import;
 
+import northwind.config.MongoConfig;
 import northwind.listner.NorthwindApplicationListener;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"northwind"})
-@ServletComponentScan(basePackages= { "northwind" })
-@EnableMongoRepositories(basePackages = { "northwind" }, mongoTemplateRef = "mongo-northwind")
+@Import(MongoConfig.class)
 public class NorthwindApplication  extends SpringBootServletInitializer {
 
     @Override
