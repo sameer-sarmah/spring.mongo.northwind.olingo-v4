@@ -1,0 +1,24 @@
+ODataDispatcher.dispatch(ODataRequest, ODataResponse) 
+	This method handles different calls e.g $metadata ,single entity and entity collections and batch calls.
+	
+MetadataProcessor is implemented by DefaultProcessor which handles the metadata call
+DefaultProcessor.readMetadata(ODataRequest, ODataResponse, UriInfo, ContentType) 
+ODataXmlSerializer.metadataDocument(ServiceMetadata) 
+MetadataDocumentXmlSerializer.writeMetadataDocument(XMLStreamWriter) 
+
+
+MetadataDocumentXmlSerializer.writeMetadataDocument(XMLStreamWriter) handles the serialization of the EDM into XML.
+
+Have noticed that it is always better to extends CsdlAbstractEdmProvider and provide the EDM definition in Java
+rather than writing the EDMX XML file and parse it 
+
+	MetadataParser metadataParser =new MetadataParser();
+	ServiceMetadata edm = null;
+	try {
+		 edm = metadataParser.buildServiceMetadata(reader);
+	} catch (XMLStreamException e1) {
+		e1.printStackTrace();
+	}
+	
+On parsing xml file the EntityTypes,ComplexTypes are not populated in ServiceMetadata even though they are present inside 
+SchemaProvider thus the $metadata call fails even though the other CRUD is performed without issues
